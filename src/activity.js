@@ -4,15 +4,19 @@
  * @return {Promise<string>} Возвращает промис, который разрешается в строку, представляющую активность.
  * @throws {Error} Если происходит ошибка при получении данных из API, выводит ошибку в консоль и возвращает строку об ошибке.
  */
-export async function getRandomActivity() {
-    try {
-        const response = await fetch('https://www.boredapi.com/api/activity/');
-        const data = await response.json();
-        return data.activity;
-    } catch (error) {
-        console.error(error);
-        return "К сожалению, произошла ошибка";
-    }
+export function getRandomActivity() {
+    return fetch('https://www.boredapi.com/api/activity/')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => data.activity)
+        .catch(error => {
+            console.error(error);
+            return "К сожалению, произошла ошибка";
+        });
 }
 
 /**
