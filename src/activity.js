@@ -6,13 +6,13 @@
  */
 export function getRandomActivity() {
     return fetch('https://www.boredapi.com/api/activity/')
-        .then(response => {
+        .then(async response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-            return response.json();
+            const data = await response.json();
+            return data.activity;
         })
-        .then(data => data.activity)
         .catch(error => {
             console.error(error);
             return "К сожалению, произошла ошибка";
